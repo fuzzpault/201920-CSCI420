@@ -1,12 +1,22 @@
 '''
 Name: Paul Talaga
 Date: 2-25-2020
-Desc: TCP client with a send/receive loop.
+Desc: TCP client with threading
+      Uses a thread listing for new messages.
 
 '''
 import socket
+import threading
 
-port = 5555 #  Send to port above 1024
+def listen_worker(s):
+  print("Waiting for message")
+  while True:
+    rcv = s.recv(1024)
+    #print("Got: {}".format(rcv.decode('ascii')))
+    print()
+    print(rcv.decode('ascii'))
+
+port = 5556 #  Send to port above 1024
 
 host = socket.gethostname()
 #host = '10.18.101.97'
@@ -16,6 +26,8 @@ print("I am {}".format(host))
 # the width releases the resouces when you ctrl-c
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
   s.connect( (host, port))
+  thread = threading.Thread(target=listen_worker, args= [s] )
+  thread.start()
   while True:
     message = input("What do you want to send?")
       #s.send( message.encode('ascii'))
@@ -23,6 +35,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
       break
     s.sendall( message.encode('ascii'))
     print("Message Sent!")
-    rcv = s.recv(1024)
-    print("Got: {}".format(rcv.decode('ascii')))
+    
   s.close()
