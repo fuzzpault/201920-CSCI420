@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+  <h1>I'm alive!</h1>
+  <form method='get'>
+  <label>A:</label><input name= 'a' value='{{ data['a'] }} ' /><br>
+  <label>B:</label><input name= 'b' value='{{ data['b'] }} '/><br>
+  <input type='submit' value="Add these numbers!" />
+  </form>
+  {% if data['a'] %}
+  	<p> {{ data['a'] }} + {{ data['b'] }} = {{ data['result'] }} </p>
+  {% endif %}
+
+ </body>
+</html>
